@@ -1,0 +1,11 @@
+#!/bin/sh
+# Post-commit hook: запись информации о коммите в commit.log.
+# Установка: cp hooks/post-commit .git/hooks/post-commit && chmod +x .git/hooks/post-commit
+
+HASH=$(git rev-parse --short HEAD)
+AUTHOR=$(git log -1 --pretty=format:'%an <%ae>')
+MESSAGE=$(git log -1 --pretty=format:'%s')
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+
+echo "$DATE | $HASH | $AUTHOR | $MESSAGE" >> commit.log
+echo "post-commit: информация о коммите записана в commit.log"
