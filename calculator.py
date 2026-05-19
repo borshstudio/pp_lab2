@@ -8,3 +8,8 @@ def divide(a, b):
     if b == 0:
         raise ValueError("Division by zero is not allowed")
     return a / b
+
+
+def multiply(a, b):
+    """Return product of two numbers."""
+    return a * b
