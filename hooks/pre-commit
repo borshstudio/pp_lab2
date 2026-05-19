@@ -1,0 +1,24 @@
+#!/bin/sh
+# Pre-commit hook: проверка стиля Python-файлов через flake8.
+# Установка: cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.py$')
+
+if [ -z "$FILES" ]; then
+    echo "pre-commit: Python-файлы не изменялись, проверка пропущена."
+    exit 0
+fi
+
+echo "pre-commit: запускаю flake8 для изменённых Python-файлов:"
+echo "$FILES"
+
+flake8 $FILES
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+    echo "pre-commit: найдены ошибки стиля. Коммит отменён."
+    exit 1
+fi
+
+echo "pre-commit: проверка стиля успешно пройдена."
+exit 0
